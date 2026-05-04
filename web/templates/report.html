@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AI Report</title>
+  <link rel='stylesheet' href='/static/style.css'>
+</head>
+<body>
+
+<nav>
+  <h1>🛡 Attack Surface Dashboard</h1>
+  <a href='/'>Home</a>
+  <a href='/results'>Scan Results</a>
+  <a href='/report'>AI Report</a>
+  <a href='/api/results'>JSON API</a>
+</nav>
+
+<div class='container'>
+  <h2>AI Risk Explanations</h2>
+
+  {% for row in data %}
+  <div class='report-card {{ row.ml_prediction | lower }}'>
+    <h3>
+      {{ row.ip }} — {{ row.protocol.upper() }} —
+      <span class='badge {{ row.ml_prediction | lower }}'>{{ row.ml_prediction }}</span>
+    </h3>
+    <pre>{{ row.llm_explanation }}</pre>
+  </div>
+  {% endfor %}
+
+</div>
+
+</body>
+</html>

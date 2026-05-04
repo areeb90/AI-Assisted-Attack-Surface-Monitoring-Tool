@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Scan Results</title>
+  <link rel='stylesheet' href='/static/style.css'>
+</head>
+<body>
+
+<nav>
+  <h1>🛡 Attack Surface Dashboard</h1>
+  <a href='/'>Home</a>
+  <a href='/results'>Scan Results</a>
+  <a href='/report'>AI Report</a>
+  <a href='/api/results'>JSON API</a>
+</nav>
+
+<div class='container'>
+  <h2>Scan Results</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>IP</th>
+        <th>Protocol</th>
+        <th>Open Ports</th>
+        <th>Web</th>
+        <th>DB</th>
+        <th>Sensitive</th>
+        <th>UDP Exposed</th>
+        <th>Risk Label</th>
+        <th>ML Prediction</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in data %}
+      <tr>
+        <td>{{ row.ip }}</td>
+        <td>{{ row.protocol }}</td>
+        <td>{{ row.open_port_count }}</td>
+        <td>{{ '✓' if row.has_web else '✗' }}</td>
+        <td>{{ '✓' if row.has_db else '✗' }}</td>
+        <td>{{ '✓' if row.has_sensitive else '✗' }}</td>
+        <td>{{ '✓' if row.is_udp_exposed else '✗' }}</td>
+        <td>{{ row.risk_label }}</td>
+        <td class='badge {{ row.ml_prediction | lower }}'>{{ row.ml_prediction }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>

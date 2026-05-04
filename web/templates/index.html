@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Attack Surface Dashboard</title>
+  <link rel='stylesheet' href='/static/style.css'>
+</head>
+<body>
+
+<nav>
+  <h1>🛡 Attack Surface Dashboard</h1>
+  <a href='/'>Home</a>
+  <a href='/results'>Scan Results</a>
+  <a href='/report'>AI Report</a>
+  <a href='/api/results'>JSON API</a>
+</nav>
+
+<div class='container'>
+  <h2>Overview</h2>
+
+  {% if stats %}
+  <div class='cards'>
+    <div class='card blue'><h3>{{ stats.total_hosts }}</h3><p>Hosts Scanned</p></div>
+    <div class='card red'><h3>{{ stats.high }}</h3><p>High Risk</p></div>
+    <div class='card yellow'><h3>{{ stats.medium }}</h3><p>Medium Risk</p></div>
+    <div class='card green'><h3>{{ stats.low }}</h3><p>Low Risk</p></div>
+    <div class='card grey'><h3>{{ stats.total_ports }}</h3><p>Total Open Ports</p></div>
+  </div>
+  {% else %}
+  <p>No data yet. Run the pipeline first.</p>
+  {% endif %}
+
+  <h2>Architecture</h2>
+  <pre class='arch'>
+Your Laptop (SSH + Browser)
+         |
+    Scanner EC2
+   /      |      \
+Target-Low  Target-Med  Target-High
+(port 22)  (22,80,8080)  (22,80,443,3306,8080,UDP:161)
+  </pre>
+
+  <form method='post' action='/run-pipeline'>
+    <button type='submit' class='btn'>▶ Run Pipeline</button>
+  </form>
+</div>
+
+</body>
+</html>

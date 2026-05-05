@@ -1,0 +1,31 @@
+ip,protocol,open_port_count,has_web,has_db,has_sensitive,is_udp_exposed,risk_label,ml_prediction,llm_explanation
+10.0.1.126,tcp,1,0,0,1,0,Low,Low,"1. The host was classified as Low risk because it only has 1 open port and does not have web services or databases running, lowering the potential attack surface for hackers.
+
+2. The main contributing factor to the risk level is the presence of sensitive ports on the host, which could be exploited by malicious actors if not properly secured.
+
+3. One specific remediation recommendation is to implement strict access control mechanisms, such as firewalls, to restrict access to the sensitive ports and reduce the risk of unauthorized access or exploitation. Additionally, regular vulnerability scanning and patch management should also be carried out to address any potential vulnerabilities."
+10.0.1.126,udp,0,0,0,0,0,Low,Low,"1. This host was classified as Low risk because it has no open ports, does not have any web services or databases, and does not have any sensitive ports exposed. These factors indicate that there are limited attack vectors for potential threats to exploit.
+
+2. The main contributing factor to the low risk level is the absence of any open ports on the host. Open ports increase the attack surface of the host, making it more vulnerable to potential cyber threats. In this case, the fact that there are no open ports reduces the likelihood of unauthorized access or exploitation.
+
+3. One specific remediation recommendation for further enhancing the security posture of this host is to regularly update and patch the system and its applications. Keeping the host's software up to date helps to address any known vulnerabilities and strengthen its defenses against potential threats. Additionally, implementing network segmentation and access controls can further limit the exposure of the host to external risks."
+10.0.1.217,tcp,3,1,0,1,0,High,High,"1. This host was classified as High risk due to the presence of sensitive ports and a web service, both of which are common targets for cyber attacks. 
+
+2. The main contributing factor to the risk level is the presence of sensitive ports, which could indicate potential vulnerabilities that hackers may exploit to gain unauthorized access to the host's system.
+
+3. One specific remediation recommendation is to conduct regular vulnerability assessments and penetration testing to identify and address any security weaknesses on the host. Additionally, implementing strong access controls, regularly updating software, and configuring firewalls can help mitigate the risks associated with sensitive ports and web services."
+10.0.1.217,udp,0,0,0,0,0,Low,Low,"1. This host was classified as Low risk because it has no open ports, web service, database, or sensitive ports that could potentially be exploited by malicious actors.
+
+2. The main contributing factor to the low risk level is that the host does not have any open ports or services running that could be targeted for unauthorized access or attacks.
+
+3. One specific remediation recommendation would be to regularly update and patch the host's operating system and software to protect against any potential vulnerabilities that could be exploited by attackers. Additionally, implementing strong firewall rules and network segmentation can further enhance the host's security posture."
+10.0.1.39,tcp,5,1,1,1,0,High,High,"1. This host was classified as High risk due to the presence of sensitive ports, a web service, a database, and multiple open ports. These factors indicate a higher likelihood of potential vulnerabilities and exploitable entry points for malicious actors.
+
+2. The main contributing factor to the risk level is the combination of having sensitive ports, a web service, and a database on the same host. This increases the surface area for potential attacks and increases the risk of unauthorized access to sensitive information.
+
+3. One specific remediation recommendation would be to conduct a thorough security audit to identify and address any vulnerabilities present on the host. This could involve implementing strong access controls, regularly updating software and patches, and configuring proper firewall rules to limit access to sensitive ports. Additionally, monitoring network traffic and implementing intrusion detection systems can help detect and respond to any suspicious activity on the host."
+10.0.1.39,udp,0,0,0,0,0,Low,Low,"1. This host was classified as Low risk because it has no open ports, does not have any web service, database, or sensitive ports, and UDP is not exposed. These factors indicate that there are fewer vulnerabilities for potential attackers to exploit.
+
+2. The main contributing factor to the low risk level is the absence of any open ports on the host. Open ports can provide entry points for attackers to gain unauthorized access to the system and potentially exploit vulnerabilities. Since there are no open ports on this host, the risk of a successful cyber attack is significantly reduced.
+
+3. One specific remediation recommendation for further reducing the risk level of this host is to regularly update and patch the operating system and any software running on it. Keeping the system and software up to date with the latest security patches can help prevent known vulnerabilities from being exploited by attackers. Additionally, implementing network segmentation and firewall rules can further limit the exposure of the host to potential threats."

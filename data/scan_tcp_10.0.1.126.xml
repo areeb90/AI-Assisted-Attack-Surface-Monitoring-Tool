@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.93 scan initiated Tue May  5 05:18:52 2026 as: nmap -sS -p- -T4 -&#45;open -oX scanner/../data/scan_tcp_10.0.1.126.xml -oN scanner/../data/scan_tcp_10.0.1.126.txt 10.0.1.126 -->
+<nmaprun scanner="nmap" args="nmap -sS -p- -T4 -&#45;open -oX scanner/../data/scan_tcp_10.0.1.126.xml -oN scanner/../data/scan_tcp_10.0.1.126.txt 10.0.1.126" start="1777958332" startstr="Tue May  5 05:18:52 2026" version="7.93" xmloutputversion="1.05">
+<scaninfo type="syn" protocol="tcp" numservices="65535" services="1-65535"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<hosthint><status state="up" reason="arp-response" reason_ttl="0"/>
+<address addr="10.0.1.126" addrtype="ipv4"/>
+<address addr="02:1F:7C:0A:CE:23" addrtype="mac"/>
+<hostnames>
+</hostnames>
+</hosthint>

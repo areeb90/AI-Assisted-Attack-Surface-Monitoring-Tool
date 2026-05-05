@@ -1,0 +1,7 @@
+ip,protocol,open_port_count,has_web,has_db,has_sensitive,is_udp_exposed,risk_label,ml_prediction
+10.0.1.126,tcp,1,0,0,1,0,Low,Low
+10.0.1.126,udp,0,0,0,0,0,Low,Low
+10.0.1.217,tcp,3,1,0,1,0,High,High
+10.0.1.217,udp,0,0,0,0,0,Low,Low
+10.0.1.39,tcp,5,1,1,1,0,High,High
+10.0.1.39,udp,0,0,0,0,0,Low,Low

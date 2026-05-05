@@ -1,48 +1,309 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Attack Surface Dashboard</title>
-  <link rel='stylesheet' href='/static/style.css'>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
 
 <nav>
-  <h1>🛡 Attack Surface Dashboard</h1>
-  <a href='/'>Home</a>
-  <a href='/results'>Scan Results</a>
-  <a href='/report'>AI Report</a>
-  <a href='/api/results'>JSON API</a>
+  <div class="nav-brand">
+    <span class="nav-icon">⬡</span>
+    <span>Attack Surface Dashboard</span>
+  </div>
+  <div class="nav-links">
+    <a href="/" class="active">Home</a>
+    <a href="/results">Scan Results</a>
+    <a href="/report">AI Report</a>
+    <a href="/api/results">JSON API</a>
+  </div>
 </nav>
 
-<div class='container'>
-  <h2>Overview</h2>
+<div class="container">
 
-  {% if stats %}
-  <div class='cards'>
-    <div class='card blue'><h3>{{ stats.total_hosts }}</h3><p>Hosts Scanned</p></div>
-    <div class='card red'><h3>{{ stats.high }}</h3><p>High Risk</p></div>
-    <div class='card yellow'><h3>{{ stats.medium }}</h3><p>Medium Risk</p></div>
-    <div class='card green'><h3>{{ stats.low }}</h3><p>Low Risk</p></div>
-    <div class='card grey'><h3>{{ stats.total_ports }}</h3><p>Total Open Ports</p></div>
-  </div>
-  {% else %}
-  <p>No data yet. Run the pipeline first.</p>
-  {% endif %}
+  <!-- ── Section 1: Run Pipeline ───────────────────────── -->
+  <section class="section" id="pipeline-section">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2>Pipeline Control</h2>
+    </div>
+    <div class="pipeline-card">
+      <div class="pipeline-info">
+        <h3>Run Full Analysis Pipeline</h3>
+        <p>Executes all 5 stages: Network Scan → Feature Extraction → Labeling → ML Training → LLM Explanation</p>
+        <div class="pipeline-stages">
+          <span class="stage">Nmap Scan</span>
+          <span class="arrow">→</span>
+          <span class="stage">Parse XML</span>
+          <span class="arrow">→</span>
+          <span class="stage">Label Data</span>
+          <span class="arrow">→</span>
+          <span class="stage">Train ML</span>
+          <span class="arrow">→</span>
+          <span class="stage">LLM Explain</span>
+        </div>
+      </div>
+      <form method="post" action="/run-pipeline" onsubmit="handlePipelineStart(event)">
+        <button type="submit" class="btn-primary" id="pipeline-btn">
+          <span class="btn-icon">▶</span> Run Pipeline
+        </button>
+      </form>
+    </div>
+    <div id="pipeline-status" class="pipeline-status hidden">
+      <span class="pulse"></span> Pipeline running in background — refresh page in 10–15 minutes
+    </div>
+  </section>
 
-  <h2>Architecture</h2>
-  <pre class='arch'>
-Your Laptop (SSH + Browser)
-         |
-    Scanner EC2
-   /      |      \
-Target-Low  Target-Med  Target-High
-(port 22)  (22,80,8080)  (22,80,443,3306,8080,UDP:161)
-  </pre>
+  <!-- ── Section 2: Overview ───────────────────────────── -->
+  <section class="section" id="overview-section">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2>Overview</h2>
+    </div>
+    {% if stats %}
+    <div class="stats-grid">
+      <div class="stat-card blue">
+        <div class="stat-label">Hosts Scanned</div>
+        <div class="stat-value">{{ stats.total_hosts }}</div>
+        <div class="stat-sub">Active targets</div>
+      </div>
+      <div class="stat-card red">
+        <div class="stat-label">High Risk</div>
+        <div class="stat-value">{{ stats.high }}</div>
+        <div class="stat-sub">Immediate action needed</div>
+      </div>
+      <div class="stat-card yellow">
+        <div class="stat-label">Medium Risk</div>
+        <div class="stat-value">{{ stats.medium }}</div>
+        <div class="stat-sub">Monitor closely</div>
+      </div>
+      <div class="stat-card green">
+        <div class="stat-label">Low Risk</div>
+        <div class="stat-value">{{ stats.low }}</div>
+        <div class="stat-sub">Acceptable exposure</div>
+      </div>
+      <div class="stat-card grey">
+        <div class="stat-label">Open Ports</div>
+        <div class="stat-value">{{ stats.total_ports }}</div>
+        <div class="stat-sub">Total across all hosts</div>
+      </div>
+    </div>
 
-  <form method='post' action='/run-pipeline'>
-    <button type='submit' class='btn'>▶ Run Pipeline</button>
-  </form>
+    <!-- Risk breakdown per host -->
+    <div class="host-breakdown">
+      <h3>Host Risk Breakdown</h3>
+      <div class="breakdown-table">
+        <div class="breakdown-header">
+          <span>IP Address</span>
+          <span>Protocol</span>
+          <span>Open Ports</span>
+          <span>Web</span>
+          <span>Database</span>
+          <span>Sensitive</span>
+          <span>Risk Level</span>
+        </div>
+        {% for row in rows %}
+        <div class="breakdown-row">
+          <span class="mono">{{ row.ip }}</span>
+          <span class="mono upper">{{ row.protocol }}</span>
+          <span class="mono">{{ row.open_port_count }}</span>
+          <span>{{ '✓' if row.has_web else '✗' }}</span>
+          <span>{{ '✓' if row.has_db else '✗' }}</span>
+          <span>{{ '✓' if row.has_sensitive else '✗' }}</span>
+          <span class="risk-badge {{ row.ml_prediction | lower }}">{{ row.ml_prediction }}</span>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% else %}
+    <div class="empty-state">
+      <div class="empty-icon">📡</div>
+      <p>No scan data yet. Run the pipeline above to get started.</p>
+    </div>
+    {% endif %}
+  </section>
+
+  <!-- ── Section 3: Architecture ───────────────────────── -->
+  <section class="section" id="arch-section">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2>Network Architecture</h2>
+    </div>
+    <div class="arch-grid">
+      <div class="arch-node scanner">
+        <div class="node-icon">💻</div>
+        <div class="node-label">Your Laptop</div>
+        <div class="node-sub">SSH + Browser</div>
+      </div>
+      <div class="arch-arrow-down">↓</div>
+      <div class="arch-node scanner">
+        <div class="node-icon">🖥</div>
+        <div class="node-label">Scanner EC2</div>
+        <div class="node-sub">44.198.193.233 | Port 5000</div>
+      </div>
+      <div class="arch-branches">
+        <div class="branch-line"></div>
+        <div class="arch-targets">
+          <div class="arch-node target-low">
+            <div class="node-icon">🟢</div>
+            <div class="node-label">Target-Low</div>
+            <div class="node-sub">10.0.1.126</div>
+            <div class="node-ports">Port: 22</div>
+          </div>
+          <div class="arch-node target-med">
+            <div class="node-icon">🟡</div>
+            <div class="node-label">Target-Med</div>
+            <div class="node-sub">10.0.1.217</div>
+            <div class="node-ports">Ports: 22, 80, 8080</div>
+          </div>
+          <div class="arch-node target-high">
+            <div class="node-icon">🔴</div>
+            <div class="node-label">Target-High</div>
+            <div class="node-sub">10.0.1.39</div>
+            <div class="node-ports">Ports: 22, 80, 443, 3306, 8080, UDP:161</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Section 4: Download Report ───────────────────── -->
+  <section class="section" id="download-section">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2>Download Report</h2>
+    </div>
+    <div class="download-card">
+      <div class="download-info">
+        <div class="download-icon">📄</div>
+        <div>
+          <h3>Full Analysis Report</h3>
+          <p>Includes scan results, ML classifications, and AI-generated risk explanations for all hosts.</p>
+        </div>
+      </div>
+      <a href="/download-report" class="btn-download">
+        ⬇ Download Report
+      </a>
+    </div>
+  </section>
+
+  <!-- ── Section 5: LLM Output ─────────────────────────── -->
+  <section class="section" id="llm-section">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <h2>AI Risk Explanations</h2>
+    </div>
+    {% if rows %}
+      {% for row in rows %}
+        {% if row.llm_explanation and row.llm_explanation != 'LLM stage not yet run.' %}
+        <div class="llm-card {{ row.ml_prediction | lower }}">
+          <div class="llm-card-header">
+            <div class="llm-host-info">
+              <span class="mono">{{ row.ip }}</span>
+              <span class="protocol-badge">{{ row.protocol | upper }}</span>
+              <span class="risk-badge {{ row.ml_prediction | lower }}">{{ row.ml_prediction }} Risk</span>
+            </div>
+            <div class="llm-port-count">{{ row.open_port_count }} open port{{ 's' if row.open_port_count != 1 else '' }}</div>
+          </div>
+          <div class="llm-explanation">{{ row.llm_explanation }}</div>
+        </div>
+        {% endif %}
+      {% endfor %}
+    {% else %}
+    <div class="empty-state">
+      <div class="empty-icon">🤖</div>
+      <p>No AI explanations yet. Run the full pipeline to generate them.</p>
+    </div>
+    {% endif %}
+  </section>
+
+  <!-- ── Section 6: AI Chat ─────────────────────────────── -->
+  <section class="section" id="chat-section">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <h2>Ask the AI Analyst</h2>
+    </div>
+    <div class="chat-container">
+      <div class="chat-messages" id="chat-messages">
+        <div class="chat-msg assistant">
+          <span class="chat-avatar">🤖</span>
+          <div class="chat-bubble">
+            Hello! I'm your AI security analyst. Ask me anything about the scan results — which hosts are most vulnerable, what ports to close first, or how to interpret the risk scores.
+          </div>
+        </div>
+      </div>
+      <div class="chat-input-row">
+        <input
+          type="text"
+          id="chat-input"
+          class="chat-input"
+          placeholder="e.g. Which host is most dangerous and why?"
+          onkeydown="if(event.key==='Enter') sendChat()"
+        />
+        <button class="btn-send" onclick="sendChat()">Send ↗</button>
+      </div>
+    </div>
+  </section>
+
 </div>
+
+<script>
+function handlePipelineStart(e) {
+  document.getElementById('pipeline-status').classList.remove('hidden');
+  document.getElementById('pipeline-btn').disabled = true;
+  document.getElementById('pipeline-btn').textContent = '⏳ Running...';
+}
+
+async function sendChat() {
+  const input = document.getElementById('chat-input');
+  const messages = document.getElementById('chat-messages');
+  const msg = input.value.trim();
+  if (!msg) return;
+
+  // Add user message
+  messages.innerHTML += `
+    <div class="chat-msg user">
+      <div class="chat-bubble">${msg}</div>
+      <span class="chat-avatar">👤</span>
+    </div>`;
+  input.value = '';
+  messages.scrollTop = messages.scrollHeight;
+
+  // Add loading
+  const loadingId = 'loading-' + Date.now();
+  messages.innerHTML += `
+    <div class="chat-msg assistant" id="${loadingId}">
+      <span class="chat-avatar">🤖</span>
+      <div class="chat-bubble loading">Analyzing<span class="dots">...</span></div>
+    </div>`;
+  messages.scrollTop = messages.scrollHeight;
+
+  try {
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({message: msg})
+    });
+    const data = await res.json();
+    document.getElementById(loadingId).outerHTML = `
+      <div class="chat-msg assistant">
+        <span class="chat-avatar">🤖</span>
+        <div class="chat-bubble">${data.response}</div>
+      </div>`;
+  } catch(e) {
+    document.getElementById(loadingId).outerHTML = `
+      <div class="chat-msg assistant">
+        <span class="chat-avatar">🤖</span>
+        <div class="chat-bubble error">Error connecting to AI. Check your OpenAI API key.</div>
+      </div>`;
+  }
+  messages.scrollTop = messages.scrollHeight;
+}
+</script>
 
 </body>
 </html>

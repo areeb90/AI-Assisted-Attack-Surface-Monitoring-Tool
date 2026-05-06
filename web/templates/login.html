@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login — Attack Surface Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --navy:#0d1f35;--blue:#1a3a5c;--accent:#2e75b6;
+  --bg:#0a1628;--surface:rgba(255,255,255,0.04);
+  --border:rgba(255,255,255,0.08);--text:#e2e8f0;--muted:#64748b;
+}
+body{
+  font-family:'Syne',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  background-image:
+    radial-gradient(ellipse at 20% 50%,rgba(46,117,182,0.15) 0%,transparent 60%),
+    radial-gradient(ellipse at 80% 20%,rgba(26,58,92,0.2) 0%,transparent 60%);
+}
+.grid-bg{
+  position:fixed;inset:0;
+  background-image:linear-gradient(rgba(46,117,182,0.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(46,117,182,0.04) 1px,transparent 1px);
+  background-size:40px 40px;
+  pointer-events:none;
+}
+.card{
+  width:420px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:48px 40px;
+  backdrop-filter:blur(12px);
+  box-shadow:0 24px 64px rgba(0,0,0,0.4);
+  position:relative;z-index:1;
+}
+.logo{
+  text-align:center;
+  margin-bottom:36px;
+}
+.logo-icon{
+  font-size:2.5em;
+  display:block;
+  margin-bottom:12px;
+}
+.logo h1{
+  font-size:1.3em;
+  font-weight:800;
+  color:#fff;
+  letter-spacing:-0.3px;
+}
+.logo p{
+  font-size:0.8em;
+  color:var(--muted);
+  margin-top:4px;
+  font-family:'JetBrains Mono',monospace;
+}
+.field{margin-bottom:18px;}
+.field label{
+  display:block;
+  font-size:0.78em;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:0.8px;
+  color:var(--muted);
+  margin-bottom:8px;
+}
+.field input{
+  width:100%;
+  padding:13px 16px;
+  background:rgba(255,255,255,0.06);
+  border:1px solid var(--border);
+  border-radius:10px;
+  color:var(--text);
+  font-family:'Syne',sans-serif;
+  font-size:0.95em;
+  outline:none;
+  transition:border-color 0.2s,background 0.2s;
+}
+.field input:focus{
+  border-color:var(--accent);
+  background:rgba(46,117,182,0.08);
+}
+.btn-login{
+  width:100%;
+  padding:14px;
+  background:linear-gradient(135deg,var(--accent),var(--blue));
+  color:white;
+  border:none;
+  border-radius:10px;
+  font-family:'Syne',sans-serif;
+  font-size:1em;
+  font-weight:700;
+  cursor:pointer;
+  margin-top:8px;
+  box-shadow:0 4px 20px rgba(46,117,182,0.35);
+  transition:all 0.2s;
+  letter-spacing:0.3px;
+}
+.btn-login:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(46,117,182,0.45);}
+.error{
+  background:rgba(220,38,38,0.1);
+  border:1px solid rgba(220,38,38,0.3);
+  color:#fca5a5;
+  padding:12px 14px;
+  border-radius:8px;
+  font-size:0.85em;
+  margin-bottom:18px;
+}
+.hint{
+  margin-top:20px;
+  padding:14px;
+  background:rgba(46,117,182,0.06);
+  border:1px solid rgba(46,117,182,0.15);
+  border-radius:8px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.75em;
+  color:var(--muted);
+  line-height:1.8;
+}
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+<div class="card">
+  <div class="logo">
+    <span class="logo-icon">⬡</span>
+    <h1>Attack Surface Dashboard</h1>
+    <p>AI-Assisted Risk Analysis</p>
+  </div>
+
+  {% if error %}
+  <div class="error">⚠ {{ error }}</div>
+  {% endif %}
+
+  <form method="POST">
+    <div class="field">
+      <label>Username</label>
+      <input type="text" name="username" placeholder="Enter username" autofocus autocomplete="off">
+    </div>
+    <div class="field">
+      <label>Password</label>
+      <input type="password" name="password" placeholder="Enter password">
+    </div>
+    <button type="submit" class="btn-login">Sign In →</button>
+  </form>
+
+  <div class="hint">
+    Default credentials:<br>
+    admin / admin123<br>
+    areeb / seminar2026
+  </div>
+</div>
+</body>
+</html>

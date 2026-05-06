@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE nmaprun>
 <?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
-<!-- Nmap 7.93 scan initiated Mon May  4 18:44:44 2026 as: nmap -sS -p- -T4 -&#45;open -oX scanner/../data/scan_tcp_10.0.1.39.xml -oN scanner/../data/scan_tcp_10.0.1.39.txt 10.0.1.39 -->
-<nmaprun scanner="nmap" args="nmap -sS -p- -T4 -&#45;open -oX scanner/../data/scan_tcp_10.0.1.39.xml -oN scanner/../data/scan_tcp_10.0.1.39.txt 10.0.1.39" start="1777920284" startstr="Mon May  4 18:44:44 2026" version="7.93" xmloutputversion="1.05">
+<!-- Nmap 7.93 scan initiated Wed May  6 04:48:49 2026 as: nmap -sS -p- -T4 -&#45;open -oX /home/ec2-user/AI-Assisted-Attack-Surface-Monitoring-Tool/web/../data/scan_tcp_10.0.1.39.xml -oN /home/ec2-user/AI-Assisted-Attack-Surface-Monitoring-Tool/web/../data/scan_tcp_10.0.1.39.txt 10.0.1.39 -->
+<nmaprun scanner="nmap" args="nmap -sS -p- -T4 -&#45;open -oX /home/ec2-user/AI-Assisted-Attack-Surface-Monitoring-Tool/web/../data/scan_tcp_10.0.1.39.xml -oN /home/ec2-user/AI-Assisted-Attack-Surface-Monitoring-Tool/web/../data/scan_tcp_10.0.1.39.txt 10.0.1.39" start="1778042929" startstr="Wed May  6 04:48:49 2026" version="7.93" xmloutputversion="1.05">
 <scaninfo type="syn" protocol="tcp" numservices="65535" services="1-65535"/>
 <verbose level="0"/>
 <debugging level="0"/>
@@ -12,7 +12,14 @@
 <hostnames>
 </hostnames>
 </hosthint>
-<host starttime="1777920284" endtime="1777920408"><status state="up" reason="arp-response" reason_ttl="0"/>
+<taskprogress task="SYN Stealth Scan" time="1778043564" percent="78.35" remaining="176" etc="1778043739"/>
+<taskprogress task="SYN Stealth Scan" time="1778043564" percent="78.36" remaining="176" etc="1778043739"/>
+<taskprogress task="SYN Stealth Scan" time="1778043565" percent="78.37" remaining="176" etc="1778043741"/>
+<taskprogress task="SYN Stealth Scan" time="1778043565" percent="78.39" remaining="176" etc="1778043740"/>
+<taskprogress task="SYN Stealth Scan" time="1778043788" percent="95.05" remaining="45" etc="1778043833"/>
+<taskprogress task="SYN Stealth Scan" time="1778043788" percent="95.06" remaining="45" etc="1778043833"/>
+<taskprogress task="SYN Stealth Scan" time="1778043789" percent="95.08" remaining="45" etc="1778043833"/>
+<host starttime="1778042929" endtime="1778043855"><status state="up" reason="arp-response" reason_ttl="0"/>
 <address addr="10.0.1.39" addrtype="ipv4"/>
 <address addr="02:4A:94:5B:4B:41" addrtype="mac"/>
 <hostnames>
@@ -27,8 +34,8 @@
 <port protocol="tcp" portid="3306"><state state="open" reason="syn-ack" reason_ttl="127"/><service name="mysql" method="table" conf="3"/></port>
 <port protocol="tcp" portid="8080"><state state="open" reason="syn-ack" reason_ttl="127"/><service name="http-proxy" method="table" conf="3"/></port>
 </ports>
-<times srtt="241" rttvar="22" to="100000"/>
+<times srtt="266" rttvar="61" to="100000"/>
 </host>
-<runstats><finished time="1777920408" timestr="Mon May  4 18:46:48 2026" summary="Nmap done at Mon May  4 18:46:48 2026; 1 IP address (1 host up) scanned in 124.67 seconds" elapsed="124.67" exit="success"/><hosts up="1" down="0" total="1"/>
+<runstats><finished time="1778043855" timestr="Wed May  6 05:04:15 2026" summary="Nmap done at Wed May  6 05:04:15 2026; 1 IP address (1 host up) scanned in 926.01 seconds" elapsed="926.01" exit="success"/><hosts up="1" down="0" total="1"/>
 </runstats>
 </nmaprun>

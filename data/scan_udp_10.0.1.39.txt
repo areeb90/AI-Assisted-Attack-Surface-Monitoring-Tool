@@ -1,6 +1,6 @@
-# Nmap 7.93 scan initiated Mon May  4 18:46:48 2026 as: nmap -sU --top-ports 20 -T4 -oX scanner/../data/scan_udp_10.0.1.39.xml -oN scanner/../data/scan_udp_10.0.1.39.txt 10.0.1.39
+# Nmap 7.93 scan initiated Wed May  6 05:04:15 2026 as: nmap -sU --top-ports 20 -T4 -oX /home/ec2-user/AI-Assisted-Attack-Surface-Monitoring-Tool/web/../data/scan_udp_10.0.1.39.xml -oN /home/ec2-user/AI-Assisted-Attack-Surface-Monitoring-Tool/web/../data/scan_udp_10.0.1.39.txt 10.0.1.39
 Nmap scan report for ip-10-0-1-39.ec2.internal (10.0.1.39)
-Host is up (0.000090s latency).
+Host is up (0.000085s latency).
 
 PORT      STATE         SERVICE
 53/udp    open|filtered domain
@@ -25,4 +25,4 @@ PORT      STATE         SERVICE
 49152/udp open|filtered unknown
 MAC Address: 02:4A:94:5B:4B:41 (Unknown)
 
-# Nmap done at Mon May  4 18:46:50 2026 -- 1 IP address (1 host up) scanned in 1.70 seconds
+# Nmap done at Wed May  6 05:04:17 2026 -- 1 IP address (1 host up) scanned in 1.69 seconds
